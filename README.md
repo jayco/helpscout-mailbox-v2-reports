@@ -1,5 +1,7 @@
 # Helpscout::Mailbox::V2::Reports
 
+[![Build status](https://badge.buildkite.com/37c6409bd0d3a5b2ba10b4a6c2edd6092ecda4d7704c7ece16.svg)](https://buildkite.com/jayco/helpscout-mailbox-v2-reports)
+
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/helpscout/mailbox/v2/reports`. To experiment with that code, run `bin/console` for an interactive prompt.
 
 TODO: Delete this and the text above, and describe your gem
@@ -33,7 +35,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/helpscout-mailbox-v2-reports. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/helpscout-mailbox-v2-reports/blob/master/CODE_OF_CONDUCT.md).
-
 
 ## License
 
