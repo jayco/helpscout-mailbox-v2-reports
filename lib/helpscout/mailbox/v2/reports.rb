@@ -1,5 +1,7 @@
-require "helpscout/mailbox/v2/reports/version"
+# frozen_string_literal: true
 
+require 'helpscout/mailbox/v2/reports/version'
+require 'helpscout/mailbox/v2/reports/client'
 module Helpscout
   module Mailbox
     module V2
