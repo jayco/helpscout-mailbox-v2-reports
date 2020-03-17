@@ -86,6 +86,10 @@ Or install it yourself as:
 
 - [get_email](#get_email)
 
+[Phone Reports](#Phone-Reports)
+
+- [get_phone](#get_phone)
+
 ### Initialise
 
 Creates a new Client class and authorises the client with HelpScout
@@ -1902,6 +1906,64 @@ response = client.get_email
 #       "resolutionTime" : 2278004
 #     } ]
 #   }
+# }
+```
+
+### Phone Reports
+
+#### get_phone
+
+The Phone report is a very simple and straightforward measure of the volume of phone calls logged in Help Scout. Check out Reporting Definitions and Scenarios for the scoop on how these metrics are calculated.
+
+Maps to [Phone Report](https://developer.helpscout.com/mailbox-api/endpoints/reports/phone/)
+
+| Parameter             | Type          | Description                                                                                                                                                                    | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                                                                                                     | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                                                                                              | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**                                                                                           | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**                                                                                             | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                                                                                                  | `tags:99787 or tags:5666 99787`             |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                                                                                                        | `folders: 991 or folders: 991,99`           |
+| `office_hours`        | `boolean`     | Whether to take office hours into consideration in the report (defaults to false); office hours must be enabled if true is passed, otherwise the default of false will be used | `office_hours: true`                        |
+
+```ruby
+response = client.get_phone
+# =>
+# {
+#   "current" : {
+#     "startDate" : "2015-01-01T00:00:00Z",
+#     "endDate" : "2015-01-31T23:59:59Z",
+#     "phoneConversations" : 11,
+#     "phoneCallsCreated" : 11,
+#     "customers" : 10
+#   },
+#   "previous" : {
+#     "startDate" : "2019-02-01T12:00:00Z",
+#     "endDate" : "2019-03-01T12:00:00Z",
+#     "phoneConversations" : 11,
+#     "phoneCallsCreated" : 6,
+#     "customers" : 8
+#   },
+#   "deltas" : {
+#     "newConversations" : 0.0,
+#     "phoneCallsCreated" : 83.333336,
+#     "customers" : 25.0
+#   },
+#   "users" : [ {
+#     "name" : "Vernon Bear",
+#     "id" : 100,
+#     "current" : {
+#       "phoneConversations" : 2,
+#       "phoneCallsCreated" : 0,
+#       "customers" : 2
+#     },
+#     "previous" : {
+#       "phoneConversations" : 1,
+#       "phoneCallsCreated" : 0,
+#       "customers" : 1
+#     }
+#   } ]
 # }
 ```
 
