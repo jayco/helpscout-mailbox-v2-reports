@@ -34,9 +34,9 @@ Or install it yourself as:
 
 [Company Reports](#Company)
 
-- [get_company](##get_company)
-- [get_company_customers_helped](##get_company_customers_helped)
-- [get_company_drilldown](##get_company_drilldown)
+- [get_company](#get_company)
+- [get_company_customers_helped](#get_company_customers_helped)
+- [get_company_drilldown](#get_company_drilldown)
 
 ### Initialise
 
