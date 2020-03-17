@@ -1027,9 +1027,9 @@ response = client.get_productivity_replies_sent
 
 #### get_productivity_resolution_time
 
-This report provides the number of replies sent for each period in a specified time range. You may optionally specify two time ranges to see how the number of replies sent changed between the two ranges.
+This report provides average resolution times for each period in a specified time range. You may optionally specify two time ranges to see how average resolution time changed between the two ranges.
 
-Maps to [Productivity - Replies Sent](https://developer.helpscout.com/mailbox-api/endpoints/reports/productivity/reports-productivity-replies-sent/)
+Maps to [Productivity - Resolution Time](https://developer.helpscout.com/mailbox-api/endpoints/reports/productivity/reports-productivity-resolution-time/)
 
 | Parameter             | Type          | Description                                                                                                                                                                    | Example                                     |
 | :-------------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------ |
