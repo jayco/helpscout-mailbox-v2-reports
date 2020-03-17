@@ -82,6 +82,10 @@ Or install it yourself as:
 
 - [get_chat](#get_chat)
 
+[Email Reports](#Email-Reports)
+
+- [get_email](#get_email)
+
 ### Initialise
 
 Creates a new Client class and authorises the client with HelpScout
@@ -1535,14 +1539,15 @@ Third party chat integrations will show a count in the All Channels - Volumes by
 
 Maps to [Chat Report](https://developer.helpscout.com/mailbox-api/endpoints/reports/chat/)
 
-| Parameter             | Type          | Description                                                                          | Example                                     |
-| :-------------------- | :------------ | :----------------------------------------------------------------------------------- | :------------------------------------------ |
-| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**           | `start_date: 2020-03-09T13:30:00Z`          |
-| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                    | `end_date: 2020-03-16T13:30:00Z`            |
-| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601** | `previous_start_date: 2020-02-24T13:30:00Z` |
-| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**   | `previous_end_date: 2020-03-02T13:30:00Z`   |
-| `tags`                | `number`      | List of comma separated ids to filter on tags                                        | `tags:99787 or tags:5666 99787`             |
-| `folders`             | `number`      | List of comma separated folder ids to filter on folders                              | `folders: 991 or folders: 991,99`           |
+| Parameter             | Type          | Description                                                                                                                                                                    | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                                                                                                     | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                                                                                              | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**                                                                                           | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**                                                                                             | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                                                                                                  | `tags:99787 or tags:5666 99787`             |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                                                                                                        | `folders: 991 or folders: 991,99`           |
+| `office_hours`        | `boolean`     | Whether to take office hours into consideration in the report (defaults to false); office hours must be enabled if true is passed, otherwise the default of false will be used | `office_hours: true`                        |
 
 ```ruby
 response = client.get_chat
@@ -1738,6 +1743,163 @@ response = client.get_chat
 #       "percent" : 13.865546,
 #       "previousCount" : 30,
 #       "previousPercent" : 15
+#     } ]
+#   }
+# }
+```
+
+### Email Reports
+
+#### get_email
+
+The Email report measures efficiency working with email conversations. You’ll be able to keep track of how your team is performing in terms of time spent addressing and responding to conversations. Check out Reporting Definitions and Scenarios for the scoop on how these metrics are calculated.
+
+Maps to [Email Report](https://developer.helpscout.com/mailbox-api/endpoints/reports/email/)
+
+| Parameter             | Type          | Description                                                                                                                                                                    | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                                                                                                     | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                                                                                              | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**                                                                                           | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**                                                                                             | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                                                                                                  | `tags:99787 or tags:5666 99787`             |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                                                                                                        | `folders: 991 or folders: 991,99`           |
+| `office_hours`        | `boolean`     | Whether to take office hours into consideration in the report (defaults to false); office hours must be enabled if true is passed, otherwise the default of false will be used | `office_hours: true`                        |
+
+```ruby
+response = client.get_email
+# =>
+# {
+#   "filterTags" : [ {
+#     "id" : 100,
+#     "name" : "vip"
+#   } ],
+#   "current" : {
+#     "startDate" : "2015-01-01T00:00:00Z",
+#     "endDate" : "2015-01-31T23:59:59Z",
+#     "volume" : {
+#       "emailConversations" : 8,
+#       "emailsCreated" : 5,
+#       "repliesSent" : 24,
+#       "messagesReceived" : 40
+#     },
+#     "resolutions" : {
+#       "resolved" : 10,
+#       "resolvedOnFirstReply" : 1,
+#       "percentResolvedOnFirstReply" : 0.1,
+#       "resolutionTime" : 20.5,
+#       "repliesToResolve" : 17.0,
+#       "handleTime" : 129,
+#       "closed" : 20
+#     },
+#     "responses" : {
+#       "responseTime" : 1023,
+#       "firstResponseTime" : 500
+#     }
+#   },
+#   "previous" : {
+#     "startDate" : "2015-01-01T00:00:00Z",
+#     "endDate" : "2015-01-31T23:59:59Z",
+#     "volume" : {
+#       "emailConversations" : 7,
+#       "emailsCreated" : 4,
+#       "repliesSent" : 14,
+#       "messagesReceived" : 20
+#     },
+#     "resolutions" : {
+#       "resolved" : 11,
+#       "resolvedOnFirstReply" : 140,
+#       "percentResolvedOnFirstReply" : 0.2,
+#       "resolutionTime" : 20.4,
+#       "repliesToResolve" : 7.0,
+#       "handleTime" : 110,
+#       "closed" : 19
+#     },
+#     "responses" : {
+#       "responseTime" : 1021,
+#       "firstResponseTime" : 300
+#     }
+#   },
+#   "deltas" : {
+#     "volume" : {
+#       "emailConversations" : 639.2,
+#       "emailsCreated" : 865.0602,
+#       "repliesSent" : 402.4922,
+#       "messagesReceived" : 245.098
+#     },
+#     "resolutions" : {
+#       "resolved" : -15.0,
+#       "resolvedOnFirstReply" : 3.8235,
+#       "resolutionTime" : -99.3841,
+#       "repliesToResolve" : 45.6583,
+#       "handleTime" : -45.5696,
+#       "closed" : -40.678
+#     },
+#     "responses" : {
+#       "responseTime" : -99.0912,
+#       "firstResponseTime" : -99.085
+#     }
+#   },
+#   "responseTime" : {
+#     "count" : 1,
+#     "previousCount" : 14,
+#     "ranges" : [ {
+#       "id" : 10,
+#       "count" : 1,
+#       "percent" : 100.0,
+#       "previousCount" : 12,
+#       "previousPercent" : 85
+#     } ]
+#   },
+#   "handleTime" : {
+#     "count" : 1,
+#     "previousCount" : 14,
+#     "ranges" : [ {
+#       "id" : 1,
+#       "count" : 1,
+#       "percent" : 100.0,
+#       "previousCount" : 14,
+#       "previousPercent" : 100
+#     } ]
+#   },
+#   "firstResponseTime" : {
+#     "count" : 1,
+#     "previousCount" : 14,
+#     "ranges" : [ {
+#       "id" : 10,
+#       "count" : 1,
+#       "percent" : 100.0,
+#       "previousCount" : 12,
+#       "previousPercent" : 85
+#     } ]
+#   },
+#   "resolutionTime" : {
+#     "count" : 17,
+#     "previousCount" : 20,
+#     "ranges" : [ {
+#       "id" : 1,
+#       "count" : 12,
+#       "percent" : 70.588234,
+#       "previousCount" : 5,
+#       "previousPercent" : 25
+#     }, {
+#       "id" : 3,
+#       "count" : 2,
+#       "percent" : 11.764706,
+#       "previousCount" : 1,
+#       "previousPercent" : 5
+#     } ]
+#   },
+#   "repliesToResolve" : {
+#     "count" : 1,
+#     "previousCount" : 14,
+#     "ranges" : [ {
+#       "id" : 2,
+#       "count" : 1,
+#       "percent" : 100.0,
+#       "previousCount" : 4,
+#       "previousPercent" : 28,
+#       "resolutionTime" : 2278004
 #     } ]
 #   }
 # }
