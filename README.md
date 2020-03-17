@@ -76,6 +76,7 @@ Or install it yourself as:
 - [get_user_happiness](#get_user_happiness)
 - [get_user_happiness_drilldown](#get_user_happiness_drilldown)
 - [get_user_replies](#get_user_replies)
+- [get_user_resolutions](#get_user_resolutions)
 
 ### Initialise
 
@@ -1268,18 +1269,17 @@ This reports provides the number of customers a user helped for each period in a
 
 Maps to [User Customers Helped](https://developer.helpscout.com/mailbox-api/endpoints/reports/user/reports-user-customer-helped/)
 
-| Parameter             | Type          | Description                                                                                                                                                                    | Example                                     |
-| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------ |
-| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                                                                                                     | `start_date: 2020-03-09T13:30:00Z`          |
-| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                                                                                              | `end_date: 2020-03-16T13:30:00Z`            |
-| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**                                                                                           | `previous_start_date: 2020-02-24T13:30:00Z` |
-| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**                                                                                             | `previous_end_date: 2020-03-02T13:30:00Z`   |
-| `tags`                | `number`      | List of comma separated ids to filter on tags                                                                                                                                  | `tags:99787 or tags:5666 99787`             |
-| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_                                                                               | `types: email or types:chat,email,phone`    |
-| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                                                                                                        | `folders: 991 or folders: 991,99`           |
-| `office_hours`        | `boolean`     | Whether to take office hours into consideration in the report (defaults to false); office hours must be enabled if true is passed, otherwise the default of false will be used | `office_hours: true`                        |
-| `user`                | `number`      | User for whom the report is generated **Defaults 1**                                                                                                                           | `user: 1`                                   |
-| `view_by`             | `enumeration` | Represents the resolution at which data is returned; valid values are: _day, week or month_                                                                                    | `view_by: day`                              |
+| Parameter             | Type          | Description                                                                                      | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                       | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**             | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**               | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                    | `tags:99787 or tags:5666 99787`             |
+| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_ | `types: email or types:chat,email,phone`    |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                          | `folders: 991 or folders: 991,99`           |
+| `user`                | `number`      | User for whom the report is generated **Defaults 1**                                             | `user: 1`                                   |
+| `view_by`             | `enumeration` | Represents the resolution at which data is returned; valid values are: _day, week or month_      | `view_by: day`                              |
 
 ```ruby
 response = client.get_user_customers_helped
@@ -1292,19 +1292,18 @@ This report is similar to the User Report, but instead of returning statistics a
 
 Maps to [User Drill-down](https://developer.helpscout.com/mailbox-api/endpoints/reports/user/reports-user-drilldown/)
 
-| Parameter             | Type          | Description                                                                                                                                                                    | Example                                     |
-| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------ |
-| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                                                                                                     | `start_date: 2020-03-09T13:30:00Z`          |
-| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                                                                                              | `end_date: 2020-03-16T13:30:00Z`            |
-| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**                                                                                           | `previous_start_date: 2020-02-24T13:30:00Z` |
-| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**                                                                                             | `previous_end_date: 2020-03-02T13:30:00Z`   |
-| `tags`                | `number`      | List of comma separated ids to filter on tags                                                                                                                                  | `tags:99787 or tags:5666 99787`             |
-| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_                                                                               | `types: email or types:chat,email,phone`    |
-| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                                                                                                        | `folders: 991 or folders: 991,99`           |
-| `office_hours`        | `boolean`     | Whether to take office hours into consideration in the report (defaults to false); office hours must be enabled if true is passed, otherwise the default of false will be used | `office_hours: true`                        |
-| `user`                | `number`      | User for whom the report is generated **Defaults 1**                                                                                                                           | `user: 1`                                   |
-| `page`                | `number`      | The page number                                                                                                                                                                | `page: 2`                                   |
-| `rows`                | `number`      | Number of result to return per page; defaults to 25; maximum is 50                                                                                                             | `rows: 30`                                  |
+| Parameter             | Type          | Description                                                                                      | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                       | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**             | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**               | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                    | `tags:99787 or tags:5666 99787`             |
+| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_ | `types: email or types:chat,email,phone`    |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                          | `folders: 991 or folders: 991,99`           |
+| `user`                | `number`      | User for whom the report is generated **Defaults 1**                                             | `user: 1`                                   |
+| `page`                | `number`      | The page number                                                                                  | `page: 2`                                   |
+| `rows`                | `number`      | Number of result to return per page; defaults to 25; maximum is 50                               | `rows: 30`                                  |
 
 ```ruby
 response = client.get_user_drilldown
@@ -1361,17 +1360,16 @@ The happiness report provides information about how many Great, Okay, and Not Go
 
 Maps to [User Happiness](https://developer.helpscout.com/mailbox-api/endpoints/reports/user/reports-user-happiness/)
 
-| Parameter             | Type          | Description                                                                                                                                                                    | Example                                     |
-| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------ |
-| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                                                                                                     | `start_date: 2020-03-09T13:30:00Z`          |
-| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                                                                                              | `end_date: 2020-03-16T13:30:00Z`            |
-| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**                                                                                           | `previous_start_date: 2020-02-24T13:30:00Z` |
-| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**                                                                                             | `previous_end_date: 2020-03-02T13:30:00Z`   |
-| `tags`                | `number`      | List of comma separated ids to filter on tags                                                                                                                                  | `tags:99787 or tags:5666 99787`             |
-| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_                                                                               | `types: email or types:chat,email,phone`    |
-| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                                                                                                        | `folders: 991 or folders: 991,99`           |
-| `office_hours`        | `boolean`     | Whether to take office hours into consideration in the report (defaults to false); office hours must be enabled if true is passed, otherwise the default of false will be used | `office_hours: true`                        |
-| `user`                | `number`      | User for whom the report is generated **Defaults 1**                                                                                                                           | `user: 1`                                   |
+| Parameter             | Type          | Description                                                                                      | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                       | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**             | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**               | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                    | `tags:99787 or tags:5666 99787`             |
+| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_ | `types: email or types:chat,email,phone`    |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                          | `folders: 991 or folders: 991,99`           |
+| `user`                | `number`      | User for whom the report is generated **Defaults 1**                                             | `user: 1`                                   |
 
 ```ruby
 response = client.get_user_happiness
@@ -1483,22 +1481,44 @@ This reports provides the number of replies a user sent for each period in a spe
 
 Maps to [User Replies](https://developer.helpscout.com/mailbox-api/endpoints/reports/user/reports-user-replies/)
 
-| Parameter             | Type          | Description                                                                                                                                                                    | Example                                     |
-| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------ |
-| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                                                                                                     | `start_date: 2020-03-09T13:30:00Z`          |
-| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                                                                                              | `end_date: 2020-03-16T13:30:00Z`            |
-| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**                                                                                           | `previous_start_date: 2020-02-24T13:30:00Z` |
-| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**                                                                                             | `previous_end_date: 2020-03-02T13:30:00Z`   |
-| `tags`                | `number`      | List of comma separated ids to filter on tags                                                                                                                                  | `tags:99787 or tags:5666 99787`             |
-| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_                                                                               | `types: email or types:chat,email,phone`    |
-| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                                                                                                        | `folders: 991 or folders: 991,99`           |
-| `office_hours`        | `boolean`     | Whether to take office hours into consideration in the report (defaults to false); office hours must be enabled if true is passed, otherwise the default of false will be used | `office_hours: true`                        |
-| `user`                | `number`      | User for whom the report is generated **Defaults 1**                                                                                                                           | `user: 1`                                   |
-| `view_by`             | `enumeration` | Represents the resolution at which data is returned; valid values are: _day, week or month_                                                                                    | `view_by: day`                              |
+| Parameter             | Type          | Description                                                                                      | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                       | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**             | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**               | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                    | `tags:99787 or tags:5666 99787`             |
+| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_ | `types: email or types:chat,email,phone`    |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                          | `folders: 991 or folders: 991,99`           |
+| `user`                | `number`      | User for whom the report is generated **Defaults 1**                                             | `user: 1`                                   |
+| `view_by`             | `enumeration` | Represents the resolution at which data is returned; valid values are: _day, week or month_      | `view_by: day`                              |
 
 ```ruby
 response = client.get_user_replies
 # => "{\"current\":[{\"date\":\"2020-03-09T13:30:00Z\",\"replies\":24}],\"previous\":[{\"date\":\"2020-02-24T13:30:00Z\",\"replies\":18}]}"
+```
+
+#### get_user_resolutions
+
+This reports provides the number of conversations a user helped resolve for each period in a specified time range. You may optionally specify two time ranges to see how the number of resolved conversations changed between the two time ranges.
+
+Maps to [User Resolutions](https://developer.helpscout.com/mailbox-api/endpoints/reports/user/reports-user-resolutions/)
+
+| Parameter             | Type          | Description                                                                                      | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                       | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**             | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**               | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                    | `tags:99787 or tags:5666 99787`             |
+| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_ | `types: email or types:chat,email,phone`    |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                          | `folders: 991 or folders: 991,99`           |
+| `user`                | `number`      | User for whom the report is generated **Defaults 1**                                             | `user: 1`                                   |
+| `view_by`             | `enumeration` | Represents the resolution at which data is returned; valid values are: _day, week or month_      | `view_by: day`                              |
+
+```ruby
+response = client.get_user_resolutions
+# => "{\"current\":[{\"date\":\"2020-03-09T13:30:00Z\",\"resolved\":26}],\"previous\":[{\"date\":\"2020-02-24T13:30:00Z\",\"resolved\":17}]}"
 ```
 
 ## Development
