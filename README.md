@@ -67,6 +67,10 @@ Or install it yourself as:
 - [get_productivity_resolved](#get_productivity_resolved)
 - [get_productivity_response_time](#get_productivity_response_time)
 
+[User Reports](#User-Reports)
+
+- [get_user](#get_user)
+
 ### Initialise
 
 Creates a new Client class and authorises the client with HelpScout
@@ -1094,6 +1098,105 @@ Maps to [Productivity - Response Time](https://developer.helpscout.com/mailbox-a
 ```ruby
 response = client.get_productivity_response_time
 # => "{\"current\":[{\"date\":\"2020-03-09T13:30:00Z\",\"time\":82731}],\"previous\":[{\"date\":\"2020-02-24T13:30:00Z\",\"time\":115673}]}"
+```
+
+### User Report
+
+#### get_user
+
+Please note that if a team ID is used instead of an user ID, the report calculates summary data for all team members.
+
+The report provides a snapshot of a user or team activity over a specified time range. You may optionally specify two time ranges to see how activity changed between the two ranges.
+
+Maps to [User/Team Overall Report](https://developer.helpscout.com/mailbox-api/endpoints/reports/user/reports-user/)
+
+| Parameter             | Type          | Description                                                                                                                                                                    | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                                                                                                     | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                                                                                              | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**                                                                                           | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**                                                                                             | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                                                                                                  | `tags:99787 or tags:5666 99787`             |
+| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_                                                                               | `types: email or types:chat,email,phone`    |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                                                                                                        | `folders: 991 or folders: 991,99`           |
+| `office_hours`        | `boolean`     | Whether to take office hours into consideration in the report (defaults to false); office hours must be enabled if true is passed, otherwise the default of false will be used | `office_hours: true`                        |
+| `user`                | `number`      | User for whom the report is generated **Defaults 1**                                                                                                                           | `user: 1`                                   |
+
+```ruby
+response = client.client.get_user
+# =>
+# {
+#   "filterTags" : [ {
+#     "id" : 123,
+#     "name" : "sample-tag"
+#   } ],
+#   "user" : {
+#     "id" : 4,
+#     "hasPhoto" : true,
+#     "createdAt" : "2010-09-03T15:55:48Z",
+#     "name" : "John Smith",
+#     "totalCustomersHelped" : 6580,
+#     "photoUrl" : "http://example.com/pic.jpg"
+#   },
+#   "current" : {
+#     "startDate" : "2015-01-01T00:00:00Z",
+#     "endDate" : "2015-01-31T23:59:59Z",
+#     "totalDays" : 30,
+#     "resolved" : 1,
+#     "conversationsCreated" : 15,
+#     "closed" : 3,
+#     "totalReplies" : 58,
+#     "resolvedOnFirstReply" : 0,
+#     "percentResolvedOnFirstReply" : 0.0,
+#     "repliesToResolve" : 2.0,
+#     "handleTime" : 78.96,
+#     "happinessScore" : 66.66666666666666,
+#     "responseTime" : 2278004,
+#     "resolutionTime" : 2278004.0,
+#     "repliesPerDay" : 1.9333333333333333,
+#     "customersHelped" : 26,
+#     "totalConversations" : 19,
+#     "conversationsPerDay" : 0.6333333333333333,
+#     "busiestDay" : 5
+#   },
+#   "previous" : {
+#     "startDate" : "2014-01-01T00:00:00Z",
+#     "endDate" : "2014-01-31T23:59:59Z",
+#     "totalDays" : 30,
+#     "resolved" : 12,
+#     "conversationsCreated" : 2,
+#     "closed" : 33,
+#     "totalReplies" : 40,
+#     "resolvedOnFirstReply" : 4,
+#     "percentResolvedOnFirstReply" : 0.3333333333333333,
+#     "repliesToResolve" : 2.1666666666666665,
+#     "handleTime" : 0.0,
+#     "happinessScore" : 23.529411764705884,
+#     "responseTime" : 2357169,
+#     "resolutionTime" : 4318101.5,
+#     "repliesPerDay" : 1.3333333333333333,
+#     "customersHelped" : 16,
+#     "totalConversations" : 42,
+#     "conversationsPerDay" : 0.4
+#   },
+#   "deltas" : {
+#     "totalConversations" : -54.761904761904766,
+#     "customersHelped" : 62.5,
+#     "happinessScore" : 43.13725490196077,
+#     "repliesPerDay" : 45.000000000000014,
+#     "resolvedOnFirstReply" : -100.0,
+#     "handleTime" : 0.0,
+#     "conversationsPerDay" : 58.33333333333333,
+#     "resolved" : -91.66666666666666,
+#     "repliesToResolve" : -7.692307692307687,
+#     "activeConversations" : -54.761904761904766,
+#     "totalReplies" : 44.99999999999999,
+#     "closed" : -90.9090909090909,
+#     "responseTime" : -3.3584779029420475,
+#     "resolutionTime" : -47.245241919394445,
+#     "conversationsCreated" : 650.0
+#   }
+# }
 ```
 
 ## Development

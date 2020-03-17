@@ -440,8 +440,20 @@ RSpec.describe Helpscout::Mailbox::V2::Reports do
       context 'get_user' do
         it 'raises an error' do
           expect do
-            expect(@client.get_user).to raise_error(NotImplementedError)
-          end.to raise_error(NotImplementedError)
+            dates = @client.get_defaults
+            stub_request(:get, "https://api.helpscout.net/v2/reports/user?end=#{dates[:end]}&previousEnd=#{dates[:previous_end]}&previousStart=#{dates[:previous_start]}&start=#{dates[:start]}&user=1").to_raise(StandardError)
+            response = @client.get_user
+          end.to raise_error(StandardError)
+        end
+
+        it 'should return value' do
+          dates = @client.get_defaults
+          stub_request(:get, "https://api.helpscout.net/v2/reports/user?end=#{dates[:end]}&previousEnd=#{dates[:previous_end]}&previousStart=#{dates[:previous_start]}&start=#{dates[:start]}&user=1")
+            .with(headers: { 'Authorization': 'Bearer some_token' })
+            .to_return(body: { id: @test_id }.to_json)
+
+          response = @client.get_user
+          expect(response.body).to eql({ id: @test_id }.to_json)
         end
       end
 
