@@ -1,29 +1,43 @@
 # frozen_string_literal: true
 
 require 'helpscout/mailbox/v2/client'
+require_relative './validate'
 
 module Helpscout
   module Mailbox
     module V2
       module Reports
         class Client < Helpscout::Mailbox::V2::Client::Http
+          include Helpscout::Mailbox::V2::Reports::Validate
+
           def initialize(client_id:, client_secret:)
             super(client_id: client_id, client_secret: client_secret)
+            @start = 1.week.ago.beginning_of_day.utc.iso8601
+            @end = DateTime.now.beginning_of_day.utc.iso8601
+            @prev_start = 3.weeks.ago.beginning_of_day.utc.iso8601
+            @prev_end = 2.weeks.ago.beginning_of_day.utc.iso8601
           end
 
-          def get_company
-            # TODO: implement me
-            raise NotImplementedError
+          def get_defaults
+            { start: @start, end: @end, previous_start: @prev_start, previous_end: @prev_end }
           end
 
-          def get_company_customers_helped
-            # TODO: implement me
-            raise NotImplementedError
+          def get_company(start_date: @start, end_date: @end, previous_start_date: @prev_start, previous_end_date: @prev_end, mailboxes: nil, tags: nil, types: nil, folders: nil)
+            validated_params = check_dates(start_date, end_date, previous_start_date, previous_end_date)
+            api_map = generate_path(:v2_reports_company, nil)
+            request(api_map[:method], api_map[:path], format(validated_params.merge({ mailboxes: mailboxes, tags: tags, types: types, folders: folders })))
           end
 
-          def get_company_drilldown
-            # TODO: implement me
-            raise NotImplementedError
+          def get_company_customers_helped(start_date: @start, end_date: @end, previous_start_date: @prev_start, previous_end_date: @prev_end, mailboxes: nil, tags: nil, types: nil, folders: nil, view_by: nil)
+            validated_params = check_dates(start_date, end_date, previous_start_date, previous_end_date)
+            api_map = generate_path(:v2_reports_company_customers_helped, nil)
+            request(api_map[:method], api_map[:path], format(validated_params.merge({ mailboxes: mailboxes, tags: tags, types: types, folders: folders, view_by: view_by })))
+          end
+
+          def get_company_drilldown(start_date: @start, end_date: @end, mailboxes: nil, tags: nil, types: nil, folders: nil, page: nil, rows: nil, range: 'responseTime', range_id: nil)
+            validated_params = check_dates(start_date, end_date)
+            api_map = generate_path(:v2_reports_company_drilldown, nil)
+            request(api_map[:method], api_map[:path], format(validated_params.merge({ mailboxes: mailboxes, tags: tags, types: types, folders: folders, page: page, rows: rows, range: range, range_id: range_id })))
           end
 
           def get_conversations

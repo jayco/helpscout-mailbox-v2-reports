@@ -33,31 +33,67 @@ RSpec.describe Helpscout::Mailbox::V2::Reports do
         .with(body: body, headers: { 'Content-Type': 'application/x-www-form-urlencoded' })
         .to_return(body: { expires_in: '1', access_token: 'some_token' }.to_json)
 
-      @client = Helpscout::Mailbox::V2::Reports::Client.new(client_id: 'some id', client_secret: 'keep it secret')
+      @client = Helpscout::Mailbox::V2::Reports::Client.new(
+      @test_id = '1234'
     end
 
     context 'company' do
       context 'get_company' do
         it 'raises an error' do
           expect do
-            expect(@client.get_company).to raise_error(NotImplementedError)
-          end.to raise_error(NotImplementedError)
+            dates = @client.get_defaults
+            stub_request(:get, "https://api.helpscout.net/v2/reports/company?end=#{dates[:end]}&previousEnd=#{dates[:previous_end]}&previousStart=#{dates[:previous_start]}&start=#{dates[:start]}").to_raise(StandardError)
+            response = @client.get_company dates
+          end.to raise_error(StandardError)
+        end
+
+        it 'should return value' do
+          dates = @client.get_defaults
+          stub_request(:get, "https://api.helpscout.net/v2/reports/company?end=#{dates[:end]}&previousEnd=#{dates[:previous_end]}&previousStart=#{dates[:previous_start]}&start=#{dates[:start]}")
+            .with(headers: { 'Authorization': 'Bearer some_token' })
+            .to_return(body: { id: @test_id }.to_json)
+
+          response = @client.get_company
+          expect(response.body).to eql({ id: @test_id }.to_json)
         end
       end
 
       context 'get_company_customers_helped' do
         it 'raises an error' do
           expect do
-            expect(@client.get_company_customers_helped).to raise_error(NotImplementedError)
-          end.to raise_error(NotImplementedError)
+            dates = @client.get_defaults
+            stub_request(:get, "https://api.helpscout.net/v2/reports/company/customers-helped?end=#{dates[:end]}&previousEnd=#{dates[:previous_end]}&previousStart=#{dates[:previous_start]}&start=#{dates[:start]}").to_raise(StandardError)
+            response = @client.v2_reports_company_customers_helped
+          end.to raise_error(StandardError)
+        end
+
+        it 'should return value' do
+          dates = @client.get_defaults
+          stub_request(:get, "https://api.helpscout.net/v2/reports/company/customers-helped?end=#{dates[:end]}&previousEnd=#{dates[:previous_end]}&previousStart=#{dates[:previous_start]}&start=#{dates[:start]}")
+            .with(headers: { 'Authorization': 'Bearer some_token' })
+            .to_return(body: { id: @test_id }.to_json)
+
+          response = @client.get_company_customers_helped
+          expect(response.body).to eql({ id: @test_id }.to_json)
         end
       end
 
       context 'get_company_drilldown' do
         it 'raises an error' do
           expect do
-            expect(@client.get_company_drilldown).to raise_error(NotImplementedError)
-          end.to raise_error(NotImplementedError)
+            stub_request(:get, "https://api.helpscout.net/v2/reports/company/drilldown?end=#{dates[:end]}&start=#{dates[:start]}&range=responseTime").to_raise(StandardError)
+            response = @client.get_company_drilldown
+          end.to raise_error(StandardError)
+        end
+
+        it 'should return value' do
+          dates = @client.get_defaults
+          stub_request(:get, "https://api.helpscout.net/v2/reports/company/drilldown?end=#{dates[:end]}&start=#{dates[:start]}&range=responseTime")
+            .with(headers: { 'Authorization': 'Bearer some_token' })
+            .to_return(body: { id: @test_id }.to_json)
+
+          response = @client.get_company_drilldown
+          expect(response.body).to eql({ id: @test_id }.to_json)
         end
       end
     end
