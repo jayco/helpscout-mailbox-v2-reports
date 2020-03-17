@@ -49,6 +49,10 @@ Or install it yourself as:
 - [get_conversations_new_conversations_drilldown](#get_conversations_new_conversations_drilldown)
 - [get_conversations_received_message_stats](#get_conversations_received_message_stats)
 
+[Doc Reports](#Doc-Reports)
+
+- [get_docs](#get_docs)
+
 ### Initialise
 
 Creates a new Client class and authorises the client with HelpScout
@@ -650,6 +654,83 @@ Maps to [Conversations - Received Messages Statistics](https://developer.helpsco
 ```ruby
 response = client.get_conversations_received_message_stats
 # => "{\"current\":[{\"date\":\"2020-03-09T13:30:00Z\",\"messages\":126}],\"previous\":[{\"date\":\"2020-02-24T13:30:00Z\",\"messages\":146}]}"
+```
+
+### Doc Reports
+
+#### get_docs
+
+The Docs report provides statistics about Docs usage (searches, top articles, etc.) over a given time range. You may optionally specify two time ranges to see how usage changed between the two ranges.
+
+Maps to [Docs Overall Report](https://developer.helpscout.com/mailbox-api/endpoints/reports/docs/reports-docs-overall/)
+
+| Parameter             | Type          | Description                                                                          | Example                                                                                      |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------- |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**           | `start_date: 2020-03-09T13:30:00Z`                                                           |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                    | `end_date: 2020-03-16T13:30:00Z`                                                             |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601** | `previous_start_date: 2020-02-24T13:30:00Z`                                                  |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**   | `previous_end_date: 2020-03-02T13:30:00Z`                                                    |
+| `sites`               | `string`      | List of comma separated docs site IDs                                                | `sites: 5215163545667acd25394b5c or sites:5215163545667acd25394b5c,5214c77c45667acd25394b51` |
+
+```ruby
+response = client.get_docs
+# =>
+# {
+#   "current" : {
+#     "visitors" : 10723,
+#     "browseAction" : 88.94575230296827,
+#     "sentAnEmailResult" : 0.3450526904784109,
+#     "foundAnAnswerResult" : 72.93667816842301,
+#     "searchAction" : 11.05424769703173,
+#     "failedResult" : 26.71826914109857,
+#     "docsViewedPerVisit" : 0.9329443525211182
+#   },
+#   "popularSearches" : [ {
+#     "count" : 22,
+#     "id" : "pricing",
+#     "results" : 4
+#   }, {
+#     "count" : 21,
+#     "id" : "beacon",
+#     "results" : 9
+#   } ],
+#   "failedSearches" : [ {
+#     "count" : 2,
+#     "id" : "knowlege"
+#   }, {
+#     "count" : 1,
+#     "id" : "auto-advance"
+#   } ],
+#   "topArticles" : [ {
+#     "count" : 2295,
+#     "name" : "Email commands ",
+#     "siteId" : "52244cc53e3e9bd67a3dc68c",
+#     "id" : "524db929e400c2199a391f39",
+#     "collectionId" : "524491b4e4b0145597daf4e4"
+#   } ],
+#   "topCategories" : [ {
+#     "count" : 1153,
+#     "name" : "Productivity",
+#     "siteId" : "52444cc53e3e9bd67a3dc28c",
+#     "id" : "52b5a3b6e4b0a3b4e5ec64d3",
+#     "articles" : 20
+#   }, {
+#     "count" : 790,
+#     "name" : "Copying Email to Help Scout",
+#     "siteId" : "52444cc53e3e9bd67b3dc68c",
+#     "id" : "52548414e4b0772073dac6d0",
+#     "articles" : 17
+#   } ],
+#   "deltas" : {
+#     "failedResult" : 2.4021178109331593,
+#     "docsViewedPerVisit" : 2.561943903720043,
+#     "foundAnAnswerResult" : -2.7056392137487535,
+#     "visitors" : -14.622392395035643,
+#     "browseAction" : -2.154856275773497,
+#     "searchAction" : 2.1548562757735183,
+#     "sentAnEmailResult" : 0.30352140281560414
+#   }
+# }
 ```
 
 ## Development
