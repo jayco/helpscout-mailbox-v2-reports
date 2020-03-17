@@ -33,7 +33,7 @@ RSpec.describe Helpscout::Mailbox::V2::Reports do
         .with(body: body, headers: { 'Content-Type': 'application/x-www-form-urlencoded' })
         .to_return(body: { expires_in: '1', access_token: 'some_token' }.to_json)
 
-      @client = Helpscout::Mailbox::V2::Reports::Client.new(
+      @client = Helpscout::Mailbox::V2::Reports::Client.new(client_id: 'some id', client_secret: 'keep it secret')
       @test_id = '1234'
     end
 
