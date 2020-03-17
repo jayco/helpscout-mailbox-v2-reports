@@ -70,6 +70,8 @@ Or install it yourself as:
 [User Reports](#User-Reports)
 
 - [get_user](#get_user)
+- [get_user_conversation_history](#get_user_conversation_history)
+- [get_user_customers_helped](#get_user_customers_helped)
 
 ### Initialise
 
@@ -1254,6 +1256,30 @@ response = client.get_user_conversation_history
 #   "count" : 2303,
 #   "pages" : 20
 # }
+```
+
+#### get_user_customers_helped
+
+This reports provides the number of customers a user helped for each period in a specified time range. You may optionally specify two time ranges to see how the number of customers helped changed between the two time ranges.
+
+Maps to [User Customers Helped](https://developer.helpscout.com/mailbox-api/endpoints/reports/user/reports-user-customer-helped/)
+
+| Parameter             | Type          | Description                                                                                                                                                                    | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                                                                                                     | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                                                                                              | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**                                                                                           | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**                                                                                             | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                                                                                                  | `tags:99787 or tags:5666 99787`             |
+| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_                                                                               | `types: email or types:chat,email,phone`    |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                                                                                                        | `folders: 991 or folders: 991,99`           |
+| `office_hours`        | `boolean`     | Whether to take office hours into consideration in the report (defaults to false); office hours must be enabled if true is passed, otherwise the default of false will be used | `office_hours: true`                        |
+| `user`                | `number`      | User for whom the report is generated **Defaults 1**                                                                                                                           | `user: 1`                                   |
+| `view_by`             | `enumeration` | Represents the resolution at which data is returned; valid values are: _day, week or month_                                                                                    | `view_by: day`                              |
+
+```ruby
+response = client.get_user_customers_helped
+# => "{\"current\":[{\"date\":\"2020-03-09T13:30:00Z\",\"customers\":17}],\"previous\":[{\"date\":\"2020-02-24T13:30:00Z\",\"customers\":16}]}"
 ```
 
 ## Development
