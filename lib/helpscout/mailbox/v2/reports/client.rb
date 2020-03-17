@@ -160,9 +160,10 @@ module Helpscout
             request(api_map[:method], api_map[:path], format(validated_dates.merge({ mailboxes: mailboxes, tags: tags, types: types, folders: folders, user: user, view_by: view_by })))
           end
 
-          def get_user_drilldown
-            # TODO: implement me
-            raise NotImplementedError
+          def get_user_drilldown(start_date: @start, end_date: @end, mailboxes: nil, tags: nil, types: nil, folders: nil, page: nil, rows: nil, user: 1)
+            validated_dates = check_dates(start_date, end_date)
+            api_map = generate_path(:v2_reports_user_drilldown, nil)
+            request(api_map[:method], api_map[:path], format(validated_dates.merge({ mailboxes: mailboxes, tags: tags, types: types, folders: folders, page: page, rows: rows, user: user })))
           end
 
           def get_user_happiness

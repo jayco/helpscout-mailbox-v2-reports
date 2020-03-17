@@ -72,6 +72,7 @@ Or install it yourself as:
 - [get_user](#get_user)
 - [get_user_conversation_history](#get_user_conversation_history)
 - [get_user_customers_helped](#get_user_customers_helped)
+- [get_user_drilldown](#get_user_drilldown)
 
 ### Initialise
 
@@ -1280,6 +1281,75 @@ Maps to [User Customers Helped](https://developer.helpscout.com/mailbox-api/endp
 ```ruby
 response = client.get_user_customers_helped
 # => "{\"current\":[{\"date\":\"2020-03-09T13:30:00Z\",\"customers\":17}],\"previous\":[{\"date\":\"2020-02-24T13:30:00Z\",\"customers\":16}]}"
+```
+
+#### get_user_drilldown
+
+This report is similar to the User Report, but instead of returning statistics about users, it drills down and returns the conversation data that makes up the User Report.
+
+Maps to [User Drill-down](https://developer.helpscout.com/mailbox-api/endpoints/reports/user/reports-user-drilldown/)
+
+| Parameter             | Type          | Description                                                                                                                                                                    | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                                                                                                     | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                                                                                              | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**                                                                                           | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**                                                                                             | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                                                                                                  | `tags:99787 or tags:5666 99787`             |
+| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_                                                                               | `types: email or types:chat,email,phone`    |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                                                                                                        | `folders: 991 or folders: 991,99`           |
+| `office_hours`        | `boolean`     | Whether to take office hours into consideration in the report (defaults to false); office hours must be enabled if true is passed, otherwise the default of false will be used | `office_hours: true`                        |
+| `user`                | `number`      | User for whom the report is generated **Defaults 1**                                                                                                                           | `user: 1`                                   |
+| `page`                | `number`      | The page number                                                                                                                                                                | `page: 2`                                   |
+| `rows`                | `number`      | Number of result to return per page; defaults to 25; maximum is 50                                                                                                             | `rows: 30`                                  |
+
+```ruby
+response = client.get_user_drilldown
+# =>
+# {
+#   "conversations" : {
+#     "results" : [ {
+#       "id" : 430221821,
+#       "number" : 226358,
+#       "type" : "email",
+#       "mailboxid" : 85,
+#       "attachments" : false,
+#       "subject" : "Folder Not Appearing",
+#       "status" : "active",
+#       "threadCount" : 3,
+#       "preview" : "Hi Reginald, We actually need this workflow to run on the following condition",
+#       "customerName" : "Owen Freheim",
+#       "modifiedAt" : "2017-09-12T11:22:11Z",
+#       "assignedid" : 0,
+#       "waitingSince" : "2017-09-12T11:22:11Z",
+#       "waitingSinceType" : 2,
+#       "tags" : [ {
+#         "id" : 1277761,
+#         "name" : "folder-refresh",
+#         "color" : "none"
+#       } ]
+#     }, {
+#       "id" : 430120638,
+#       "number" : 226333,
+#       "type" : "email",
+#       "mailboxid" : 85,
+#       "attachments" : true,
+#       "subject" : "Troubles with water level",
+#       "status" : "active",
+#       "threadCount" : 4,
+#       "preview" : "Hey there seems to be an issue with the following levels...",
+#       "customerName" : "Water service",
+#       "modifiedAt" : "2017-09-12T11:23:06Z",
+#       "assignedid" : 0,
+#       "waitingSince" : "2017-09-12T11:21:50Z",
+#       "waitingSinceType" : 2,
+#       "tags" : [ ]
+#     } ],
+#     "page" : 1,
+#     "count" : 101,
+#     "pages" : 2
+#   }
+# }
 ```
 
 ## Development
