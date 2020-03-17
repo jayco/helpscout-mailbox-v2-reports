@@ -74,6 +74,7 @@ Or install it yourself as:
 - [get_user_customers_helped](#get_user_customers_helped)
 - [get_user_drilldown](#get_user_drilldown)
 - [get_user_happiness](#get_user_happiness)
+- [get_user_happiness_drilldown](#get_user_happiness_drilldown)
 
 ### Initialise
 
@@ -1414,6 +1415,64 @@ response = client.get_user_happiness
 #     "notGood" : -0.02539360081259545,
 #     "greatCount" : -87.94117647058823
 #   }
+# }
+```
+
+#### get_user_happiness_drilldown
+
+The user ratings report provides a user’s ratings for over a specified time range.
+
+Maps to [User Happiness drilldown](https://developer.helpscout.com/mailbox-api/endpoints/reports/user/reports-user-happiness-drilldown/)
+
+| Parameter             | Type          | Description                                                                                      | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                       | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**             | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**               | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                    | `tags:99787 or tags:5666 99787`             |
+| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_ | `types: email or types:chat,email,phone`    |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                          | `folders: 991 or folders: 991,99`           |
+| `user`                | `number`      | User for whom the report is generated **Defaults 1**                                             | `user: 1`                                   |
+| `rating`              | `enumeration` | Rating to filter on, valid values are: _great, ok, all, not-good_                                | `rating: great`                             |
+| `page`                | `number`      | The page number                                                                                  | `page: 2`                                   |
+| `sort_field`          | `enumeration` | Must be one of _number, modifiedAt, rating_ **Defaults to number**                               | `sort_field: rating`                        |
+| `sort_order`          | `enumeration` | Must be one of _ASC or DESC_ **Defaults to ASC**                                                 | `sort_order: ASC`                           |
+
+```ruby
+response = client.get_user_happiness_drilldown
+# =>
+# {
+#   "results" : [ {
+#     "number" : 214705,
+#     "threadid" : 1149512066,
+#     "threadCreatedAt" : "2017-09-02T11:21:42Z",
+#     "id" : 424890237,
+#     "type" : "email",
+#     "ratingId" : 1,
+#     "ratingCustomerId" : 141147564,
+#     "ratingComments" : "Nice work!",
+#     "ratingCreatedAt" : "2017-09-02T11:23:43Z",
+#     "ratingCustomerName" : "david@loans.net",
+#     "ratingUserId" : 19,
+#     "ratingUserName" : "Denny Matthews"
+#   }, {
+#     "number" : 224713,
+#     "threadid" : 1149511394,
+#     "threadCreatedAt" : "2017-09-02T11:20:31Z",
+#     "id" : 424910211,
+#     "type" : "email",
+#     "ratingId" : 1,
+#     "ratingCustomerId" : 79911899,
+#     "ratingComments" : "Great job",
+#     "ratingCreatedAt" : "2017-09-02T11:28:47Z",
+#     "ratingCustomerName" : "Robert Johnson",
+#     "ratingUserId" : 4,
+#     "ratingUserName" : "Robert Swindle"
+#   } ],
+#   "page" : 1,
+#   "count" : 165,
+#   "pages" : 17
 # }
 ```
 
