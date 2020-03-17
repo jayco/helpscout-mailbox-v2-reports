@@ -58,6 +58,10 @@ Or install it yourself as:
 - [get_happiness](#get_happiness)
 - [get_happiness_ratings](#get_happiness_ratings)
 
+[Productivity Reports](#Productivity-Reports)
+
+- [get_productivity](#get_productivity)
+
 ### Initialise
 
 Creates a new Client class and authorises the client with HelpScout
@@ -804,18 +808,17 @@ The happiness ratings report provides a company’s ratings for over a specified
 
 Maps to [Happiness Ratings Report](https://developer.helpscout.com/mailbox-api/endpoints/reports/happiness/reports-happiness-ratings/)
 
-| Parameter             | Type          | Description                                                                                      | Example                                     |
-| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------- | :------------------------------------------ |
-| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                       | `start_date: 2020-03-09T13:30:00Z`          |
-| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                | `end_date: 2020-03-16T13:30:00Z`            |
-| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**             | `previous_start_date: 2020-02-24T13:30:00Z` |
-| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**               | `previous_end_date: 2020-03-02T13:30:00Z`   |
-| `tags`                | `number`      | List of comma separated ids to filter on tags                                                    | `tags:99787 or tags:5666 99787`             |
-| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_ | `types: email or types:chat,email,phone`    |
-| `page`                | `number`      | The page number                                                                                  | `page: 2`                                   |
-| `sort_field`          | `enumeration` | Must be one of _number, modifiedAt, rating_ **Defaults to rating**                               | `sortField: rating`                         |
-| `sort_order`          | `enumeration` | Must be one of _ASC or DESC_ **Defaults to ASC**                                                 | `sortOrder: ASC`                            |
-| `rating`              | `enumeration` | Rating to filter on, valid values are: _great, ok, all, not-good_                                | `rating: great`                             |
+| Parameter    | Type          | Description                                                                                      | Example                                  |
+| :----------- | :------------ | :----------------------------------------------------------------------------------------------- | :--------------------------------------- |
+| `start_date` | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                       | `start_date: 2020-03-09T13:30:00Z`       |
+| `end_date`   | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                | `end_date: 2020-03-16T13:30:00Z`         |
+| `tags`       | `number`      | List of comma separated ids to filter on tags                                                    | `tags:99787 or tags:5666 99787`          |
+| `types`      | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_ | `types: email or types:chat,email,phone` |
+| `page`       | `number`      | The page number                                                                                  | `page: 2`                                |
+| `sort_field` | `enumeration` | Must be one of _number, modifiedAt, rating_ **Defaults to rating**                               | `sortField: rating`                      |
+| `sort_order` | `enumeration` | Must be one of _ASC or DESC_ **Defaults to ASC**                                                 | `sortOrder: ASC`                         |
+| `rating`     | `enumeration` | Rating to filter on, valid values are: _great, ok, all, not-good_                                | `rating: great`                          |
+| `folders`    | `number`      | List of comma separated folder ids to filter on folders                                          | `folders: 991 or folders: 991,99`        |
 
 ```ruby
 response = client.get_happiness_ratings
@@ -851,6 +854,125 @@ response = client.get_happiness_ratings
 #   "page" : 1,
 #   "count" : 100,
 #   "pages" : 2
+# }
+```
+
+### Productivity Reports
+
+#### get_productivity
+
+The productivity report provides a snapshot of productivity over a given time range. You may optionally specify two time ranges to see how productivity changed between the two ranges.
+
+If you would like to see the conversation data that make up this report, please use the Company Drilldown endpoint
+
+Maps to [Productivity Overall Report](https://developer.helpscout.com/mailbox-api/endpoints/reports/productivity/reports-productivity-overall/)
+
+| Parameter             | Type          | Description                                                                                                                                                                    | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                                                                                                     | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                                                                                              | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**                                                                                           | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**                                                                                             | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                                                                                                  | `tags:99787 or tags:5666 99787`             |
+| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_                                                                               | `types: email or types:chat,email,phone`    |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                                                                                                        | `folders: 991 or folders: 991,99`           |
+| `office_hours`        | `boolean`     | Whether to take office hours into consideration in the report (defaults to false); office hours must be enabled if true is passed, otherwise the default of false will be used | `office_hours: true`                        |
+
+```ruby
+response = client.get_productivity
+# =>
+# {
+#   "filterTags" : [ {
+#     "id" : 123,
+#     "name" : "sample-tag"
+#   } ],
+#   "current" : {
+#     "startDate" : "2015-01-01T00:00:00Z",
+#     "endDate" : "2015-01-31T23:59:59Z",
+#     "totalConversations" : 1,
+#     "resolutionTime" : 2278004.0,
+#     "repliesToResolve" : 2.0,
+#     "responseTime" : 2278004,
+#     "firstResponseTime" : 2278004,
+#     "resolved" : 1,
+#     "resolvedOnFirstReply" : 0,
+#     "closed" : 94,
+#     "repliesSent" : 62,
+#     "handleTime" : 6,
+#     "percentResolvedOnFirstReply" : 0.0
+#   },
+#   "previous" : {
+#     "startDate" : "2014-01-01T00:00:00Z",
+#     "endDate" : "2014-01-31T23:59:59Z",
+#     "totalConversations" : 14,
+#     "resolutionTime" : 6531211.714285715,
+#     "repliesToResolve" : 2.2142857142857144,
+#     "responseTime" : 4850412,
+#     "firstResponseTime" : 5138913,
+#     "resolved" : 14,
+#     "resolvedOnFirstReply" : 5,
+#     "closed" : 49,
+#     "repliesSent" : 636,
+#     "handleTime" : 0,
+#     "percentResolvedOnFirstReply" : 0.35714285714285715
+#   },
+#   "deltas" : {
+#     "totalConversations" : -92.85714285714286,
+#     "repliesSent" : -90.25157232704403,
+#     "firstResponseTime" : -55.67148149813006,
+#     "resolved" : -92.85714285714286,
+#     "repliesToResolve" : -9.677419354838712,
+#     "closed" : 91.83673469387755,
+#     "resolvedOnFirstReply" : -100.0,
+#     "responseTime" : -53.03483497896673,
+#     "handleTime" : 0.0,
+#     "resolutionTime" : -65.12126539984419
+#   },
+#   "responseTime" : {
+#     "count" : 1,
+#     "previousCount" : 14,
+#     "ranges" : [ {
+#       "id" : 10,
+#       "count" : 1,
+#       "previousCount" : 12,
+#       "percent" : 100.0,
+#       "previousPercent" : 85.71428571428571
+#     } ]
+#   },
+#   "handleTime" : {
+#     "count" : 1,
+#     "previousCount" : 14,
+#     "ranges" : [ {
+#       "id" : 1,
+#       "count" : 1,
+#       "previousCount" : 14,
+#       "percent" : 100.0,
+#       "previousPercent" : 100.0
+#     } ]
+#   },
+#   "firstResponseTime" : {
+#     "count" : 1,
+#     "previousCount" : 14,
+#     "ranges" : [ {
+#       "id" : 10,
+#       "count" : 1,
+#       "previousCount" : 12,
+#       "percent" : 100.0,
+#       "previousPercent" : 85.71428571428571
+#     } ]
+#   },
+#   "repliesToResolve" : {
+#     "count" : 1,
+#     "previousCount" : 14,
+#     "ranges" : [ {
+#       "id" : 2,
+#       "count" : 1,
+#       "previousCount" : 4,
+#       "percent" : 100.0,
+#       "previousPercent" : 28.57142857142857,
+#       "resolutionTime" : 2278004
+#     } ]
+#   }
 # }
 ```
 
