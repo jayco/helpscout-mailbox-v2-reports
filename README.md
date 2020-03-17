@@ -1,6 +1,6 @@
 # Helpscout::Mailbox::V2::Reports
 
-[![Build status](https://badge.buildkite.com/37c6409bd0d3a5b2ba10b4a6c2edd6092ecda4d7704c7ece16.svg)](https://buildkite.com/jayco/helpscout-mailbox-v2-reports)
+[![Build status](https://badge.buildkite.com/37c6409bd0d3a5b2ba10b4a6c2edd6092ecda4d7704c7ece16.svg)](https://buildkite.com/jayco/helpscout-mailbox-v2-reports) [![Gem Version](https://badge.fury.io/rb/helpscout-mailbox-v2-reports.svg)](https://badge.fury.io/rb/helpscout-mailbox-v2-reports)
 
 Simple to use client for interacting with the [Report Endpoints](https://developer.helpscout.com/mailbox-api/endpoints/reports/company/reports-company-overall) for the HelpScout V2 Mailbox API
 
