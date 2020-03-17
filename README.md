@@ -78,6 +78,10 @@ Or install it yourself as:
 - [get_user_replies](#get_user_replies)
 - [get_user_resolutions](#get_user_resolutions)
 
+[Chat Reports](#Chat-Reports)
+
+- [get_chat](#get_chat)
+
 ### Initialise
 
 Creates a new Client class and authorises the client with HelpScout
@@ -1519,6 +1523,224 @@ Maps to [User Resolutions](https://developer.helpscout.com/mailbox-api/endpoints
 ```ruby
 response = client.get_user_resolutions
 # => "{\"current\":[{\"date\":\"2020-03-09T13:30:00Z\",\"resolved\":26}],\"previous\":[{\"date\":\"2020-02-24T13:30:00Z\",\"resolved\":17}]}"
+```
+
+### Chat Reports
+
+#### get_chat
+
+The Chat report is all about seeing volume, efficiency, and team productivity when using Beacon with live chat over time. If you don’t see the chat report, it means you aren’t using Beacon. Set up a chat-enabled Beacon and give it a spin! Check out Reporting Definitions and Scenarios for the scoop on how these metrics are calculated.
+
+Third party chat integrations will show a count in the All Channels - Volumes by Channel report as chats, but will not be included in the Chat report. These metrics are available only for chats via Beacon.
+
+Maps to [Chat Report](https://developer.helpscout.com/mailbox-api/endpoints/reports/chat/)
+
+| Parameter             | Type          | Description                                                                          | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**           | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                    | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601** | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**   | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                        | `tags:99787 or tags:5666 99787`             |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                              | `folders: 991 or folders: 991,99`           |
+
+```ruby
+response = client.get_chat
+# =>
+# {
+#   "current" : {
+#     "startDate" : "2019-03-01T12:00:00Z",
+#     "endDate" : "2019-04-01T12:00:00Z",
+#     "volume" : {
+#       "chatConversations" : 255,
+#       "completedChats" : 243,
+#       "missedChats" : 12,
+#       "chatsPerDay" : 8.225806
+#     },
+#     "responses" : {
+#       "waitTime" : 37,
+#       "responseTime" : 0
+#     },
+#     "resolutions" : {
+#       "messagesPerChat" : 16.84252,
+#       "duration" : 927
+#     }
+#   },
+#   "previous" : {
+#     "startDate" : "2019-02-01T12:00:00Z",
+#     "endDate" : "2019-03-01T12:00:00Z",
+#     "volume" : {
+#       "chatConversations" : 212,
+#       "completedChats" : 206,
+#       "missedChats" : 5,
+#       "chatsPerDay" : 7.571429
+#     },
+#     "responses" : {
+#       "waitTime" : 37,
+#       "responseTime" : 66
+#     },
+#     "resolutions" : {
+#       "messagesPerChat" : 15.898551,
+#       "duration" : 935
+#     }
+#   },
+#   "deltas" : {
+#     "volume" : {
+#       "chatConversations" : 20.283018,
+#       "completedChats" : 17.961164,
+#       "missedChats" : 140.0,
+#       "chatsPerDay" : 8.642727
+#     },
+#     "responses" : {
+#       "waitTime" : 0.0,
+#       "responseTime" : -6.060606
+#     },
+#     "resolutions" : {
+#       "messagesPerChat" : 5.937453,
+#       "duration" : -0.85561496
+#     }
+#   },
+#   "waitTime" : {
+#     "count" : 238,
+#     "previousCount" : 196,
+#     "ranges" : [ {
+#       "id" : 1,
+#       "count" : 199,
+#       "percent" : 83.61345,
+#       "previousCount" : 160,
+#       "previousPercent" : 81
+#     }, {
+#       "id" : 2,
+#       "count" : 30,
+#       "percent" : 12.605042,
+#       "previousCount" : 33,
+#       "previousPercent" : 16
+#     }, {
+#       "id" : 3,
+#       "count" : 9,
+#       "percent" : 3.7815125,
+#       "previousCount" : 3,
+#       "previousPercent" : 1
+#     }, {
+#       "id" : 4,
+#       "count" : 0,
+#       "percent" : 0.0,
+#       "previousCount" : 0,
+#       "previousPercent" : 0
+#     }, {
+#       "id" : 5,
+#       "count" : 0,
+#       "percent" : 0.0,
+#       "previousCount" : 0,
+#       "previousPercent" : 0
+#     } ]
+#   },
+#   "responseTime" : {
+#     "count" : 237,
+#     "previousCount" : 183,
+#     "ranges" : [ {
+#       "id" : 1,
+#       "count" : 150,
+#       "percent" : 63.291138,
+#       "previousCount" : 103,
+#       "previousPercent" : 56
+#     }, {
+#       "id" : 2,
+#       "count" : 62,
+#       "percent" : 26.160337,
+#       "previousCount" : 61,
+#       "previousPercent" : 33
+#     }, {
+#       "id" : 3,
+#       "count" : 25,
+#       "percent" : 10.548523,
+#       "previousCount" : 18,
+#       "previousPercent" : 9
+#     }, {
+#       "id" : 4,
+#       "count" : 0,
+#       "percent" : 0.0,
+#       "previousCount" : 1,
+#       "previousPercent" : 0
+#     }, {
+#       "id" : 5,
+#       "count" : 0,
+#       "percent" : 0.0,
+#       "previousCount" : 0,
+#       "previousPercent" : 0
+#     } ]
+#   },
+#   "messagesPerChat" : {
+#     "count" : 254,
+#     "previousCount" : 207,
+#     "ranges" : [ {
+#       "id" : 3,
+#       "count" : 87,
+#       "percent" : 34.25197,
+#       "previousCount" : 61,
+#       "previousPercent" : 29
+#     }, {
+#       "id" : 2,
+#       "count" : 60,
+#       "percent" : 23.622047,
+#       "previousCount" : 40,
+#       "previousPercent" : 19
+#     }, {
+#       "id" : 4,
+#       "count" : 44,
+#       "percent" : 17.322834,
+#       "previousCount" : 37,
+#       "previousPercent" : 17
+#     }, {
+#       "id" : 5,
+#       "count" : 35,
+#       "percent" : 13.779528,
+#       "previousCount" : 23,
+#       "previousPercent" : 11
+#     }, {
+#       "id" : 1,
+#       "count" : 28,
+#       "percent" : 11.0236225,
+#       "previousCount" : 46,
+#       "previousPercent" : 22
+#     } ]
+#   },
+#   "duration" : {
+#     "count" : 238,
+#     "previousCount" : 196,
+#     "ranges" : [ {
+#       "id" : 3,
+#       "count" : 73,
+#       "percent" : 30.67227,
+#       "previousCount" : 49,
+#       "previousPercent" : 25
+#     }, {
+#       "id" : 2,
+#       "count" : 54,
+#       "percent" : 22.689075,
+#       "previousCount" : 49,
+#       "previousPercent" : 25
+#     }, {
+#       "id" : 1,
+#       "count" : 43,
+#       "percent" : 18.067226,
+#       "previousCount" : 40,
+#       "previousPercent" : 20
+#     }, {
+#       "id" : 4,
+#       "count" : 35,
+#       "percent" : 14.705882,
+#       "previousCount" : 28,
+#       "previousPercent" : 14
+#     }, {
+#       "id" : 5,
+#       "count" : 33,
+#       "percent" : 13.865546,
+#       "previousCount" : 30,
+#       "previousPercent" : 15
+#     } ]
+#   }
+# }
 ```
 
 ## Development
