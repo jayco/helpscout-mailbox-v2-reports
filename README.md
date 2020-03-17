@@ -30,7 +30,7 @@ Or install it yourself as:
 
 #### Table of Contents
 
-[Initialise](#Initialise)
+[Initialization](#Initialization)
 
 [Company Reports](#Company-Reports)
 
@@ -90,7 +90,7 @@ Or install it yourself as:
 
 - [get_phone](#get_phone)
 
-### Initialise
+### Initialization
 
 Creates a new Client class and authorises the client with HelpScout
 
