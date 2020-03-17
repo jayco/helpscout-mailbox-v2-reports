@@ -53,6 +53,11 @@ Or install it yourself as:
 
 - [get_docs](#get_docs)
 
+[Happiness Reports](#Happiness-Reports)
+
+- [get_happiness](#get_happiness)
+- [get_happiness_ratings](#get_happiness_ratings)
+
 ### Initialise
 
 Creates a new Client class and authorises the client with HelpScout
@@ -730,6 +735,122 @@ response = client.get_docs
 #     "searchAction" : 2.1548562757735183,
 #     "sentAnEmailResult" : 0.30352140281560414
 #   }
+# }
+```
+
+### Happiness Reports
+
+#### get_happiness
+
+The happiness report provides information about how many Great, Okay, and Not Good ratings your company received for each period in a specified time range. You may optionally specify two time ranges to see how happiness ratings changed between the two time ranges.
+
+Maps to [Happiness Overall Report](https://developer.helpscout.com/mailbox-api/endpoints/reports/happiness/reports-happiness-overall/)
+
+| Parameter             | Type          | Description                                                                                      | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                       | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**             | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**               | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                    | `tags:99787 or tags:5666 99787`             |
+| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_ | `types: email or types:chat,email,phone`    |
+| `folders`             | `number`      | List of comma separated folder ids to filter on folders                                          | `folders: 991 or folders: 991,99`           |
+
+```ruby
+response = client.get_happiness
+# =>
+# {
+#   "current" : {
+#     "ratingsPercent" : 35.77981651376147,
+#     "okay" : 30.909090909090907,
+#     "great" : 37.27272727272727,
+#     "happinessScore" : 5.454545454545457,
+#     "okayCount" : 34,
+#     "totalCustomersWithRatings" : 39,
+#     "notGoodCount" : 35,
+#     "ratingsCount" : 110,
+#     "notGood" : 31.818181818181817,
+#     "greatCount" : 41,
+#     "totalCustomers" : 109
+#   },
+#   "previous" : {
+#     "ratingsPercent" : 32.03047366677708,
+#     "great" : 31.65735567970205,
+#     "okay" : 36.49906890130354,
+#     "happinessScore" : -0.1862197392923619,
+#     "okayCount" : 392,
+#     "totalCustomersWithRatings" : 967,
+#     "notGoodCount" : 342,
+#     "ratingsCount" : 1074,
+#     "notGood" : 31.843575418994412,
+#     "greatCount" : 340,
+#     "totalCustomers" : 3019
+#   },
+#   "deltas" : {
+#     "okay" : -5.589977992212631,
+#     "great" : 5.615371593025223,
+#     "okayCount" : -91.3265306122449,
+#     "happinessScore" : 5.640765193837819,
+#     "notGoodCount" : -89.76608187134502,
+#     "notGood" : -0.02539360081259545,
+#     "greatCount" : -87.94117647058823
+#   }
+# }
+```
+
+#### get_happiness_ratings
+
+The happiness ratings report provides a company’s ratings for over a specified time range.
+
+Maps to [Happiness Ratings Report](https://developer.helpscout.com/mailbox-api/endpoints/reports/happiness/reports-happiness-ratings/)
+
+| Parameter             | Type          | Description                                                                                      | Example                                     |
+| :-------------------- | :------------ | :----------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| `start_date`          | `utc.iso8601` | Start of the interval **Defaults 1.week.ago.beginning_of_day.utc.iso8601**                       | `start_date: 2020-03-09T13:30:00Z`          |
+| `end_date`            | `utc.iso8601` | End of the interval **DateTime.now.beginning_of_day.utc.iso8601**                                | `end_date: 2020-03-16T13:30:00Z`            |
+| `previous_start_date` | `utc.iso8601` | Start of the previous interval **Defaults 3.weeks.ago.beginning_of_day.utc.iso8601**             | `previous_start_date: 2020-02-24T13:30:00Z` |
+| `previous_end_date`   | `utc.iso8601` | End of the previous interval **Defaults 2.weeks.ago.beginning_of_day.utc.iso8601**               | `previous_end_date: 2020-03-02T13:30:00Z`   |
+| `tags`                | `number`      | List of comma separated ids to filter on tags                                                    | `tags:99787 or tags:5666 99787`             |
+| `types`               | `enumeration` | List of comma separated conversation types to filter on, valid values are _email, chat or phone_ | `types: email or types:chat,email,phone`    |
+| `page`                | `number`      | The page number                                                                                  | `page: 2`                                   |
+| `sort_field`          | `enumeration` | Must be one of _number, modifiedAt, rating_ **Defaults to rating**                               | `sortField: rating`                         |
+| `sort_order`          | `enumeration` | Must be one of _ASC or DESC_ **Defaults to ASC**                                                 | `sortOrder: ASC`                            |
+| `rating`              | `enumeration` | Rating to filter on, valid values are: _great, ok, all, not-good_                                | `rating: great`                             |
+
+```ruby
+response = client.get_happiness_ratings
+# =>
+# {
+#   "results" : [ {
+#     "number" : 222043,
+#     "threadid" : 1169815634,
+#     "threadCreatedAt" : "2017-09-15T11:57:14Z",
+#     "id" : 432207336,
+#     "type" : "email",
+#     "ratingId" : 1,
+#     "ratingCustomerId" : 121198824,
+#     "ratingComments" : "Thanks for the clear reply, Amanda!",
+#     "ratingCreatedAt" : "2017-09-15T12:26:53Z",
+#     "ratingCustomerName" : "Alexander the Great",
+#     "ratingUserId" : 69013,
+#     "ratingUserName" : "Amanda Herrington"
+#   }, {
+#     "number" : 226983,
+#     "threadid" : 1169298612,
+#     "threadCreatedAt" : "2017-09-15T03:52:30Z",
+#     "id" : 432031326,
+#     "type" : "email",
+#     "ratingId" : 1,
+#     "ratingCustomerId" : 121972376,
+#     "ratingComments" : "Super helpful!",
+#     "ratingCreatedAt" : "2017-09-15T14:54:27Z",
+#     "ratingCustomerName" : "Mikey Mikelson",
+#     "ratingUserId" : 76859,
+#     "ratingUserName" : "Shawna Herring"
+#   } ],
+#   "page" : 1,
+#   "count" : 100,
+#   "pages" : 2
 # }
 ```
 

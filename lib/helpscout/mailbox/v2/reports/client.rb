@@ -94,14 +94,16 @@ module Helpscout
             request(api_map[:method], api_map[:path], format(validated_dates.merge({ sites: sites })))
           end
 
-          def get_happiness
-            # TODO: implement me
-            raise NotImplementedError
+          def get_happiness(start_date: @start, end_date: @end, previous_start_date: @prev_start, previous_end_date: @prev_end, mailboxes: nil, tags: nil, types: nil, folders: nil)
+            validated_dates = check_dates(start_date, end_date, previous_start_date, previous_end_date)
+            api_map = generate_path(:v2_reports_happiness, nil)
+            request(api_map[:method], api_map[:path], format(validated_dates.merge({ mailboxes: mailboxes, tags: tags, types: types, folders: folders })))
           end
 
-          def get_happiness_ratings
-            # TODO: implement me
-            raise NotImplementedError
+          def get_happiness_ratings(start_date: @start, end_date: @end, mailboxes: nil, tags: nil, types: nil, folders: nil, page: nil, rows: nil, field: 'customerid', field_id: 1)
+            validated_dates = check_dates(start_date, end_date)
+            api_map = generate_path(:v2_reports_happiness_ratings, nil)
+            request(api_map[:method], api_map[:path], format(validated_dates.merge({ mailboxes: mailboxes, tags: tags, types: types, folders: folders, page: page, rating: nil, sort_field: 'rating', sort_order: 'ASC' })))
           end
 
           def get_productivity
